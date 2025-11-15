@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import getCollection, { URLS_COLLECTION } from '@/lib/db';
+import { getCollection, URLS_COLLECTION } from '@/lib/db';
 
 type Props = {params: Promise<{ alias: string }>;};
 

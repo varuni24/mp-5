@@ -1,26 +1,16 @@
-import { MongoClient, Db, Collection } from "mongodb";
+import { MongoClient } from 'mongodb';
 
-const MONGODB_URI = process.env.MONGODB_URI as string;
-if (!MONGODB_URI) {
-  throw new Error("MONGO_URI environment variable is undefined");
-}
+const MONGO_URI = process.env.MONGO_URI;
+const DB_NAME = 'url-shortener';
+export const URLS_COLLECTION = 'urls';
 
-const DB_NAME = "url-shortener";
-export const URLS_COLLECTION = "urls";
-let client: MongoClient | null = null;
-let db: Db | null = null;
-
-async function connect(): Promise<Db> {
-  if (!client) {
-      client = new MongoClient(MONGODB_URI);
-      await client.connect();
+export async function getCollection(collectionName: string) {
+  if (!MONGO_URI) {
+    throw new Error('MONGO_URI is not defined in environment variables');
   }
-  return client.db(DB_NAME);
-}
 
-export default async function getCollection(collectionName: string,): Promise<Collection> {
-  if (!db) {
-    db = await connect();
-  }
+  const client = new MongoClient(MONGO_URI);
+  await client.connect();
+  const db = client.db(DB_NAME);
   return db.collection(collectionName);
 }

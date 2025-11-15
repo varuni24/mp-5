@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import getCollection, {URLS_COLLECTION} from '@/lib/db';
+import { getCollection, URLS_COLLECTION } from '@/lib/db';
 
 export async function POST(request: Request) {
   const body = await request.json();
